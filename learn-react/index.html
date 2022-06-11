@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add react -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        // Example render
+
+        // const items = [
+        //     { name: 'khanh' },
+        //     { name: 'long' }
+        // ];
+
+        // const ul = (
+        //     <ul>
+        //         {items.map(item =>
+        //             <li>{item.name}</li>
+        //         )}
+        //     </ul>
+        // )
+
+        // console.log(ul)
+
+        // ReactDOM.render(ul, document.getElementById('root'));
+
+        // Example component
+
+        function Header(props) {
+
+            console.log(props.title);
+
+            return (
+                <div className="header">header ne</div>
+            )
+        }
+
+        const Button = ({ title, callback }) => {
+
+            const print = () => callback("khanh");
+
+            return (
+                <button onClick={print}>{title}</button>
+            )
+        }
+
+        const Form = {
+            Input() {
+                return <input />
+            },
+            CheckBox() {
+                return <input type="checkbox" />
+            }
+        }
+
+        const ButtonDynamic = ({ title, type, href, callback }) => {
+            let Component = type || "button";
+            const props = {};
+
+            if (Component == "button") {
+                props.onClick = callback;
+            } else if (Component == "a") {
+                props.href = href;
+            }
+
+            return <Component {...props}>{title}</Component>
+        }
+
+        const InputComponent = ({ label, ...props }) => {
+            return (
+                <div>
+                    <label>{label}</label>
+                    <input {...props} />
+                </div>
+            )
+        }
+
+        // Children prop
+        const Button2 = ({ children }) => {
+            return (
+                <button>{children}</button>
+            )
+        }
+
+        const App = () => {
+
+            const print = (message) => {
+                console.log(message)
+            }
+
+            const Flexible = Form["Input"];
+
+            return (
+                <div id="container">
+                    <Header title="header" />
+
+                    <Button title="click me" callback={print} />
+
+                    <div>
+                        <Form.Input />
+                        <Form.CheckBox />
+                        <Flexible />
+                    </div>
+
+                    <ButtonDynamic title="button click" type="button" callback={() => console.log("click!!!!")} />
+                    <ButtonDynamic title="button click" type="a" href="https://www.google.com/" />
+
+                    <InputComponent
+                        label="input nè"
+                        type="text"
+                        placeholder="holder nè"
+                    />
+
+                    <Button2>Click me</Button2>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+
+    </script>
+</body>
+
+</html>
